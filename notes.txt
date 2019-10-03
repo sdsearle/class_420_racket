@@ -1,0 +1,536 @@
+Search for chapter with HW#
+
+HW3
+
+What program languages need
+1.Primatives
+2.Combine
+3.Abstraction - without form
+
+How to start Racket
+#lang eolp or racket
+
+Only means of combining is through function calls. 
+( = calling a function
+(function param1 param2 ...)
+ex (+ (+ 7 8)5 6 7)
+
+symbol = 'symbol
+symbol comparison is faster than string comparison
+
+Use multiple lines for multiple params
+ex.	(* (* ( + 3 5)
+	      (- 3 (/ 4 3)))
+	   (- (* (+ 4 3)))
+	   (+ 3 4))
+
+condition test examples:
+
+(define (++ x) (+ x 1))
+(define (zero? x) (if
+                    (= x 0) #t #f))
+(define (zero?2 x) (cond
+                    ((= x 0) #t)
+                    ((< x 0) #f)
+                    ((> x 0)#f)))
+
+compare strings
+(eq? string string2)
+
+Why type check- its helpful
+why not?- dont limit
+
+Data Model
+	Expressed values
+
+Strong type check- java		Weak type check- php/perl
+Static-compile time
+Dynamic-run time -runs while it compiles (aka interpeter)
+
+HW4
+
+Pair- (cons 'a 'b) pairs 'a and 'b together only accepts the 2 values
+cons - pairs
+car- get first element of the pair
+cdr- last element of pair.
+
+can do any combination of a/d in between c and r- read from right to left
+ex suppose x id defined as a pair that contains pairs y and z. y is a pair containt 4,5 and z contains 6,7
+then cadr is 6
+and cdar is 5
+cddr is 7
+caar is 4
+
+Make a linked list like (define lst1 (cons 3 (cons 4 (cons 5 '()))))
+or
+(define lst2 (list 1 2 3 4 5))
+or
+(define lst3 '(1 2 3))
+
+to add an element to the front use (cons new lst)
+to combine to lists do (append lst1 lst2)
+length of list do (length lst)
+(member var lst)
+adds elements of a list together(map + lst1 lst2)
+
+My guesses
+b null 3
+a b, true, true, true, ((a. b) c), (1. 2 3)
+
+Results
+b ((3) c) c
+(a,b), false, true, true, ((a . b) c), (1 2 . 3)
+
+HW5
+
+(define (square x) (* x x)) -- This is a shortcut
+
+(intialize methodname (lamda (paramList) (functionBody))) 
+(define square (lambda (x) (* x x)))
+
+First class functions are treated like any other data type. AKA a function can return a function and pass functions as a var, or have an array of functions
+
+The following returns a function that accepts 1 param(X):
+(define compose (lambda (f g)
+                  (lambda (x)
+                    (f (g x)))))
+
+The parenthese by f and the other one by g means that we are going to call a function
+(g x)- function g takes one param x
+(f (g x))- function f takes one param (g x)
+
+(define tmp (compose car cdr)) -- returns cadr
+
+arity- the number of paramaters a function takes
+varible arity is a function that takes any number of params.
+
+This works
+(map add2 '(1 2 3))
+
+apply - adds a list ex (apply '(1 2 3))
+
+HW6
+
+Racket has local variables.
+use let to difine local vars inside a function (The vars can be functions)
+let's scope is only inside the body-- If you define a var with let you can't use that var to define other vars.
+However using let* means squential binding (AKA you can define a var with let to define other vars.
+Let is syntactic sugar
+letrec-- rec stads fir recursive
+
+and not or -- exist in racket
+
+and is special ordered
+so is define lambda etc -- because they are built into the racket language. 
+ex (define a 3 --- should crash at a b/c it hasnt been defined before.
+
+HW7
+
+Inductive defs work well for computers
+ex 0 is a natural number (nn)
+   if x is a nn
+	then
+	x+1 is a nn
+
+BNF--Bacus nower form (SP?) SYNTAX FREE GRAMAR
+lon - list of numbers
+<lon> --> () || (<number> . <lon>)
+Syntactic Derivation - something is one of the rules.
+ex prove (4 .(3 .()))
+<lon>
+(<number . <lon>)
+(4 . (<number> . <lon>))
+(4. (3 . ()))
+
+HW8
+
+steps for recursion
+1.break it apart from production
+2.break it bigger to smaller
+3.place recurion where it makes sense
+4.Combine it together and solve the problem
+
+if takes 3 params (if cond, true, false)
+cons-- concatet lists?
+
+multi demensional
+<s-list> --> 	()
+		|(<sym-exp) . <S-list>)
+<sym-exp> -->	<symbol> | <s-list>
+
+Mutual recursion
+
+(define subst (lambda (new old slst)
+                (if (null? slst)
+                    ;empty
+                    '()
+                    ;full the first param in cons is a member inside a list
+                    (cons (subst-se new old (car slst)) (subst new old (cdr slst))))))
+
+(define subst-se (lambda (new old se)
+                   (if (symbol? se)
+                       ;symbol
+                       (if (eq? old se) new se)
+                       ;slst
+                       (subst new old se))))
+
+HW9
+
+<slist> --> () || (<se> . <s-list>)
+<se> --> <symbol>|<s-list>
+
+Use wrapper functions to do cool things like auto increment.
+Return same types ex if se is symbol then make se into a list
+
+if element in a list use cons 
+if a list in a list use append
+
+
+HW10
+
+scope- where the var can be accessed
+1) Reference - all but the declare is a var ref in racket -- can be free or bound
+2) Declare
+	i. (define
+	ii. (lambda
+	iii. (let
+
+Static-compile time
+Dynamic-run time -runs while it compiles (aka interpeter)
+
+{
+	int x, y;
+	x = 4
+	{
+		int x = 3
+	}
+	y = x + 1
+}
+
+If this is static y is 5 but if its dynamic then its 4
+
+<exp> ->   <symbol>			symbol expresion
+	|| (lambda (<symbol>) <exp>)	lambda expresion
+	|| (<exp> <exp>)		application expression
+
+ex Prove ((lambda (x) (x x)) y)
+
+	<exp>
+	(<exp> <exp>)
+	(lambda (<symbol>) <exp>) <symbol>)
+	((lambda (x) (<exp> <exp>)) y)
+	((lambda (x) (<symbol> <symbol>)) y)
+	((lambda (x) (x x)) y)
+
+Above is the syntax of our language.
+	When creating a language you would have to decide what your syntax will look like
+
+x in (x x) in ((lambda (x) (x x)) y) is a bound reference
+y on the other hand is free
+
+HW11
+
+Syntatic Derivation
+
+binary tree
+<btree> --> 	<number>
+		|| (<symbol> <btree> <btree>)
+
+<slist> -->	()
+		|| (<se> <slist>)
+
+<se> -->	<number>|| <symbol> || <slist>
+
+Creating a Class/Struct
+Struct is data the belongs under a common name
+
+(define-datatype structname structname?
+	(bnf1 (type type?))
+	(bnf2 (type type?
+		(recursion structname?) <-- Can end here depending on BNF can also add more.
+		(recursion structname?)))
+
+to run:
+(structname? (bnf actual))
+		
+to make a method:
+(define methodname (lambda (var)
+		(cases structname var
+			(bnf1 (type) return)
+			(bnf2 (type1 type2 type3) (pred (etc))))))
+
+HW 12
+Syntax --> Form
+Concreate vs Abstract Syntax
+Concrete ex:
+IF <test> then
+<true>
+else
+<false>
+End
+1. Parse
+Abstract ex		Put the example in a box
+if_exp	--> test
+	--> true
+	--> false
+
+ex ((lambda (a) x) a)
+app_exp	--> rator	lambda	--> ids		a
+				--> body	var-exp	--> x
+	--> rand	var-exp	--> a
+
+HW13
+
+<exp> -->	<number>			litexp(datum)
+		<symbol>			var-exc(id)
+		(lambda (<symbol>) <exp)	lambda-exp(id body)
+		(<exp> <exp>)			app-exp(rator rand)
+
+if(test true false)
+for(init test inc, body)
+
+HW14
+
+<env> --> 	empty env
+		({<variable>,<value>}* <environment>})
+
+an API:
+1) Create an empty enviroment
+
+2) Extend an enviroment
+
+3) apply an enviroment--reference
+
+(cases type actualEnviroment
+
+
+HW15
+
+yacc (yet another compiler compiler)
+
+parsing has 2 main parts:
+1. Something needs to read the program char by char and spits out tokens <-- lexical analizer
+2. After we have our tokens then we can write our parser that checks the tokens
+
+
+HW16
+
+1) Parser
+	-tokenizer
+	-parser
+		These get feed to yacc --> which prodces a parser -->
+		Which produces a AST (abstract syntax tree)
+
+2) Interpeter
+	-takes  the AST and divides it
+
+3) Enviroment
+	-empty
+	-extend
+	-apply
+
+EEL extremly easy language
+what we need to think of to make a lang
+	Syntax/Grammer BNF
+
+
+<program> --> <expression>				a- program(exp)
+
+<expression> --> <number>				lit-exp(datum)
+		 |<symbol>				var-exp(id)
+		 |<primative> ({<expression>}*,)	primative-exp(prim rands)
+
+<primative -->	+|-|*|add1|sub1
+
+HW18
+
+What we want in our languages
+
+1) Declare vars
+2) Lists
+3) Objects
+4) boolean ops
+5) conditionals
+6) loops
+7) user defined functions
+
+if(test,true,false)
+
+HW19
+
+<expression> --> proc ({identifier}*) <expression> 		proc-exp (ids,body)
+<expression> --> (<expression> <expression>*)			app-exp(rator, rands)
+
+closer-- some peice of code with the enviroment in it.
+
+
+HW20
+
+When adding usermade functions to an interpreter
+Step 1 eval operator make sure function
+Step 2 eval the args
+Step 3 extend env
+Step 4 eval body in new eviroment
+
+HW21
+
+DATA MODEL
+	Expressed Values --> number, procval, list	--> anything that can be returned
+	denoted values--> ref(expressed values)
+
+	variable assignment BNF:
+	expression -->	set <Identifier> = <expression>		var-assign(id,rhs-exp)
+
+1. eval right hand side(rhs) exp
+2. Get where z stores its value
+3. Change the value	
+
+pass by value --> you make a copy
+pass by ref --> you make a ref to the param
+Aliasing -- calling the samething with a different name
+
+var-exp --> pass by ref
+something else --> pass by val ex number
+
+HW22
+
+let a = 3
+    p = proc (x) set x=4
+	in let tmp= (p a)
+		in a
+
+dt = direct target
+it = indirect target
+
+we made our it always point to a dt so there is no it chaining.
+
+additions (See inter21.rtk):
+	primitive-deref
+	primitive-setref!
+	deref
+	setref
+
+(define deref
+  (lambda (ref)
+	(cases target (primitive-deref ref)
+  	  (direct-target (expval) expval)
+		(indirect-target (ref1)
+		                 (cases target (primitive-deref ref1)
+					       (direct-target (expval) expval)
+					       (indirect-target p) (eopl:error 'deref "Illegal Reference ~s" ref1)))))))
+
+
+
+HW 23
+
+see lec 23 where +(x,y)
+
+Call by Name 		vs Call by Value 	vs Call by need
+(p +(a,b))=8		(p +(a,b))=8		(p +(a,b)) = 8
+is lazy/last min	
+
+
+Thunk - a parameterless procedure
+
+HW 24
+
+Aggregate Data:
+	Objects
+	Arrays
+	Structs
+
+Data Model
+Direct						Indirect
+Expressed value is same -->			--Expressed Values = number + procval+ arrays
+Denoted Value = ref(number)+Ref(procval)+Array	--Denoted Value = ref (expressed value)
+Array is same -->				--Array = {ref(expressed value)}*
+
+Indirect callby ref 		vs 	Indirect call by value.
+changes what a var points to		changes the value of what a var points to
+
+Direct passby/callby ref			vs	Direct call by value
+points to what a var points to				makes a copy of the value and changes it value to what it is copied
+
+
+HW24
+
+expression-- returns a value
+Statments -- dont return a value
+
+Types Checking
+Dynamic					Static
+Run Time				Compile Time
+
+
+Weak					Strong
+Allows errors				Strict on types
+					cast
+
+
+Type Declaration
+var x
+int y
+
+Type Inference
+var x = "hello"
+var y = 5.0
+var z = 6.0
+foo(x,y){
+	return x + y
+}
+
+Duck typing
+	javascript, ruby, python
+	if it looks like a duck and acts like a duck then it must be a duck.
+	in ruby numbers are objects
+
+
+HW26
+
+Adhoc-just happens
+
+Types of Polymorphism:
+
+	Adhoc:
+		Cocrcion - forces
+		Overloading - samename diff params
+
+	Universal:
+		-Parametric Polymorphism - doesnt check type
+		-Inclusion Polymorphism - how begining programers see polymorphism
+
+
+OOP IN EEL
+
+You want to save the classes into an enviroment
+
+you store the fields of an instatiated class in a part.
+
+Host class-- the class that holds the method we are calling
+
+Method enviroment:
+self
+super | obj
+param1| var
+param2| var2
+etc...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+END

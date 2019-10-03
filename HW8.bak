@@ -1,0 +1,16 @@
+#lang eopl
+
+(define list-of-numbers?
+  (lambda (lst)
+    (if (list? lst)
+            (if (null? lst)
+                #t
+                (and (number? (car lst))
+                     (list-of-numbers? (cdr lst))))
+            #f)))
+
+(define list-sum (lambda (lst)
+                   (if (null? lst)
+                       ;empty-- true
+                       0
+                       ;full-- false

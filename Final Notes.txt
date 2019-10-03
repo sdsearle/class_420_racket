@@ -1,0 +1,20 @@
+
+    Everything from the Midterm Review. 		done
+    Environments
+    How the basic Interpreter works lecture 15		
+    Call By Value					done
+    Call By Reference					done
+    Call By Value Result				done
+    Call By Name					done
+    Call By Need					done
+    Polymorphism					done
+    Type Checking					done
+        Weak vs. Strong					done
+        Dynamic vs. Static				done
+        Type Inference					done
+        Duck Typing					done
+    Object Oriented Interpreter
+        Dynamic vs. Static Variable Inheritance 	done
+        Dynamic vs. Static Method Dispatch (also know as Method Inheritance)	done
+        How objects are stored in environment		done
+        How environments are made for method calls to objects.		done

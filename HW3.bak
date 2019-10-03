@@ -1,0 +1,13 @@
+#lang eopl
+(define (++ x) (+ x 1))
+(define (zero? x) (if
+                    (= x 0) #t #f))
+(define (zero?2 x) (cond
+                    ((= x 0) #t)
+                    ((< x 0) #f)
+                    ((> x 0)#f)))
+
+(define (cube x) (* x x x))
+(define (new-sin x y) (cond
+                        ((y = 'degrees) dosomething)
+                        ((y = 'radians) dosomething)))

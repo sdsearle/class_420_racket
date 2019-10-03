@@ -1,0 +1,26 @@
+#lang eopl
+
+(define is-if? (lambda (lst) (eq? (car lst) 'if)))
+(define if-test  (lambda (lst) (cadr lst)))
+(define if-true  (lambda (lst) (caddr lst)))
+(define if-else  (lambda (lst) (cadddr lst)))
+(define is-lambda? (lambda (lst) (eq? (car lst) 'lambda)))
+(define lambda-formals  (lambda (lst) (cadr lst)))
+(define lambda-body  (lambda (lst) (caddr lst)))
+
+(define lexical-address
+   (lambda (exp)
+     (lexical-address-aux exp '())))
+
+(define lexical-address-aux
+ (lambda (exp env)
+   (cond ((null? exp) '()) ;at end of the expression
+         ((symbol? exp) ..(make varible reference)..) ;variable reference
+         ((is-if? exp) (list 'if ;if expression
+                             (lexical-address-aux (if-test exp) env) 
+                             (lexical-address-aux (if-true exp) env)
+                             (lexical-address-aux (if-else exp) env)))
+         ((is-lambda? exp)  (list 'lambda ;lambda expression
+                                  (lambda-formals exp)
+                                  ...(need to recurse)... (lambda-body exp) ...(need to add lambda-formals to env)...)))
+         (else (application-exp exp env)))));application expression

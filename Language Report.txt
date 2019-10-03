@@ -1,0 +1,12 @@
+1) is there a root object
+2) is there multiple inheritance
+
+3)implement the sample program (lecture 32, c1 c2 mainc that was done in java) to figure out if my program is static or dynamic variable intheritance
+	--java is static
+4)static vs dynamic method dispatch. -- java is dynamic
+
+
+
+c++:
+
+::-- is a scope operator
